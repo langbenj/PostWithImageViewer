@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">PostWithImageViewer</string>
     <string name="facebook_app_id">150741575330400</string>
-    <string name="company_name">Dwayne's Auto and Transmission Repair Garage</string>
+    <string name="company_name">Dwayne\'s Auto and Transmission Repair Garage</string>
 </resources>

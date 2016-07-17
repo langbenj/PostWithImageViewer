@@ -1,5 +1,6 @@
 package langco.postwithimageviewer;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -38,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
         switch (command) {
             case "JSON Parse Complete":
                 Toast.makeText(App.getContext(), command, Toast.LENGTH_LONG).show();
+                //Create the new fragment
+                PostListFragment post_list_fragment = new PostListFragment();
+                //Need to pass an int value of the clicked Team into the fragment. Need to find it based on the team name.
+
+                //Create the fragment and launch it
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, post_list_fragment);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
                 break;
         }
     }
