@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:layout_height="2dip"
+        android:layout_width="match_parent"
+        android:background="#FF909090"
+        android:id="@+id/player_item_line_1"/>
+
+    <ImageView
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/player_item_line_1"
+        android:id="@+id/logo"
+        android:src="@drawable/profile" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignTop="@+id/logo"
+        android:layout_toRightOf="@+id/logo"
+        android:id="@+id/company_title"
+        android:text="@string/company_name"
+        android:textColor="#005eff"
+        android:textStyle="bold"
+        android:textSize="24sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/company_title"
+        android:layout_alignLeft="@+id/company_title"
+        android:id="@+id/date"
+        android:textColor="#bebebe"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="March 10th at 10 am"
+        android:layout_marginTop="5dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/date"
+        android:layout_alignLeft="@+id/logo"
+        android:id="@+id/post"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:text="Placeholder story"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/post"
+        android:layout_alignLeft="@+id/post"
+        android:id="@+id/photo"
+        android:src="@drawable/box"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Like"
+        android:id="@+id/like_button"
+        android:layout_below="@+id/photo"
+        android:layout_alignLeft="@+id/photo"
+        android:layout_alignStart="@+id/photo"
+        android:layout_marginTop="10dp" />
+</RelativeLayout>
