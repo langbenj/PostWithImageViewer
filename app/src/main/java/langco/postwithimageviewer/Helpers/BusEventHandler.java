@@ -7,14 +7,14 @@ package langco.postwithimageviewer.Helpers;
 import java.util.ArrayList;
 
 public class BusEventHandler {
-    private String mParameter;
+    private String [] mParameter;
 
     //These bus events can probably be refactored into one or two events TODO
-    public BusEventHandler (String passedParameters) {
+    public BusEventHandler (String passedParameters[]) {
         mParameter=passedParameters;
     }
 
-    public String getParameter() {
+    public String [] getParameter() {
 
         return mParameter;
     }

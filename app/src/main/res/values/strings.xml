@@ -2,4 +2,13 @@
     <string name="app_name">PostWithImageViewer</string>
     <string name="facebook_app_id">150741575330400</string>
     <string name="company_name">Dwayne\'s Auto and Transmission Repair Garage</string>
+    <string name="like">Like</string>
+    <string name="love">Love</string>
+    <string name="haha">Haha</string>
+    <string name="wow">Wow</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="popup_title">Add Reaction to Post</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select</string>
 </resources>

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class App extends Application {
     private static ArrayList<String[]> parsed_feed = new ArrayList<>();
+    private static ArrayList<String[]> parsed_image_feed = new ArrayList<>();
     public static final Bus bus = new Bus();
     private static Application sApplication;
 
@@ -38,9 +39,18 @@ public class App extends Application {
     public static void addToParsedFeed(String[] passed_array) {
         /* 0: Post date
         *  1: Post copy
-        *  2: Image URL
-        *  3: Post id */
+        *  2: Post id */
         parsed_feed.add(passed_array);
+    }
+
+    public static ArrayList<String[]> getParsedImageFeed() {
+        return parsed_image_feed;
+    }
+
+    public static void addToParsedImageFeed(String[] passed_array) {
+        /* 0: Thumbnail URL
+        *  1: Full Image URL */
+        parsed_image_feed.add(passed_array);
     }
 
 

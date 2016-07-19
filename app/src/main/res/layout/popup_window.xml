@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="230dp"
+    android:layout_height="300dp"
+    android:id="@+id/popup_layout"
+    android:background="#ffffff">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/popup_title"
+        android:id="@+id/popup_title_view"
+        android:layout_marginLeft="10dp" />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="230dp"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/like"
+        android:id="@+id/radio1"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/love"
+        android:id="@+id/radio2"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/haha"
+        android:id="@+id/radio3"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wow"
+        android:id="@+id/radio4"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sad"
+        android:id="@+id/radio5"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/angry"
+            android:id="@+id/radio6"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp" />
+    </RadioGroup>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="235dp"
+        android:layout_height="60dp">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/popup_cancel"
+            android:background="@drawable/cancel"
+            android:layout_marginLeft="30dp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/popup_select"
+            android:background="@drawable/select" />
+    </LinearLayout>
+    </LinearLayout>

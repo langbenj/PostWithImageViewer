@@ -1,4 +1,4 @@
-package langco.postwithimageviewer;
+package langco.postwithimageviewer.RecyclerList;
 
 /**
  * Created by Langb_000 on 7/17/2016.
@@ -12,7 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import langco.postwithimageviewer.Helpers.App;
+import langco.postwithimageviewer.R;
+import langco.postwithimageviewer.RecyclerList.PostListAdapter;
 
 
 public class PostListFragment extends Fragment {
@@ -22,7 +23,7 @@ public class PostListFragment extends Fragment {
 
         View view= fragmentInflater.inflate(R.layout.feed_list_recycler_view, target, false);
         RecyclerView rvPosts = (RecyclerView) view.findViewById(R.id.feed_recycler);
-        // Create adapter passing in the sample user data
+        // Create adapter
         PostListAdapter adapter = new PostListAdapter();
         // Attach the adapter to the RecyclerView to populate items
         rvPosts.setAdapter(adapter);
