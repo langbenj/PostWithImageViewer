@@ -16,7 +16,8 @@ android:layout_height="wrap_content">
     android:paddingBottom="5dp"
     android:layout_below="@+id/player_item_line_1"
     android:id="@+id/logo"
-    android:src="@drawable/profile" />
+    android:src="@drawable/profile"
+    android:layout_marginTop="10dp" />
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -60,27 +61,20 @@ android:layout_height="wrap_content">
     android:paddingLeft="5dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    android:layout_below="@+id/post"
-    android:layout_alignLeft="@+id/company_title"
     android:id="@+id/photo"
     android:src="@drawable/box"
-    android:layout_marginTop="10dp"
-    android:layout_alignParentEnd="false"
-    android:layout_marginRight="10dp" />
+    android:layout_below="@+id/post"
+    android:layout_centerHorizontal="true" />
 
 <Button
     style="?android:attr/buttonStyleSmall"
     android:layout_width="72dp"
     android:layout_height="22dp"
     android:id="@+id/like_button"
-    android:layout_below="@+id/photo"
-    android:layout_alignLeft="@+id/photo"
-    android:layout_alignStart="@+id/photo"
-    android:layout_marginTop="10dp"
-    android:focusableInTouchMode="true"
+   
     android:background="@drawable/like_icon"
-    android:layout_marginBottom="20dp"
-    android:layout_marginLeft="10dp" />
+    android:layout_below="@+id/photo"
+    android:layout_alignLeft="@+id/post" />
 
 <TextView
     android:layout_width="wrap_content"
@@ -88,7 +82,7 @@ android:layout_height="wrap_content">
     android:textAppearance="?android:attr/textAppearanceSmall"
     android:text="Small Text"
     android:id="@+id/current_id"
-    android:layout_alignTop="@+id/like_button"
-    android:layout_toEndOf="@+id/like_button"
-    android:textColor="#ffffff" />
+    android:layout_below="@+id/like_button"
+    android:textColor="#ffffff"
+    android:visibility="invisible" />
 </RelativeLayout>

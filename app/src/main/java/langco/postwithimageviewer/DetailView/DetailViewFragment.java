@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package langco.postwithimageviewer.DetailView;
 
 import android.os.Bundle;
@@ -9,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import langco.postwithimageviewer.Helpers.App;
+import langco.postwithimageviewer.R;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -16,13 +35,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import langco.postwithimageviewer.Helpers.App;
-import langco.postwithimageviewer.R;
-
+import java.util.Locale;
 
 public class DetailViewFragment extends Fragment {
-
 
     public View onCreateView(LayoutInflater fragmentInflater, ViewGroup target, Bundle savedInstanceState) {
         View view = fragmentInflater.inflate(R.layout.detail_view, target, false);
@@ -54,7 +69,7 @@ public class DetailViewFragment extends Fragment {
 
         /* The date is converted to the new format. If the parsing failed for any reason then
          * the date that will be assigned to the field will be "" */
-        SimpleDateFormat output_format = new SimpleDateFormat("MMMM d 'at' h:mm a");
+        SimpleDateFormat output_format = new SimpleDateFormat("MMMM d 'at' h:mm a", Locale.US);
         String final_date;
         if (parsed_date!=null) {
             final_date = output_format.format(parsed_date);
@@ -66,16 +81,10 @@ public class DetailViewFragment extends Fragment {
         post_view.setText(current_post[1]);
 
 
-        Picasso.with(App.getContext()).load(current_images[1])
-                .error(R.drawable.box)
-                .placeholder(R.drawable.box)
-                .into(image_detail_view, new Callback() {
-
+        Picasso.with(App.getContext()).load(current_images[1]).into(image_detail_view, new Callback() {
                     @Override
                     public void onSuccess() {
-
                     }
-
                     @Override
                     public void onError() {
                         Toast.makeText(App.getContext(), "Image Loading Failed", Toast.LENGTH_LONG).show();

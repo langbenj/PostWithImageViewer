@@ -40,26 +40,24 @@
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/date"
-        android:layout_alignLeft="@+id/company_title"
+        android:layout_alignLeft="@+id/logo"
         android:id="@+id/post"
         android:textColor="#000000"
         android:textSize="16sp"
         android:text="Placeholder story"
         android:layout_marginTop="10dp"
 
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_below="@+id/post"
-        android:layout_alignLeft="@+id/company_title"
         android:id="@+id/photo"
         android:src="@drawable/box"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentEnd="false"
 
-        android:layout_marginRight="10dp" />
+        android:layout_below="@+id/post"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

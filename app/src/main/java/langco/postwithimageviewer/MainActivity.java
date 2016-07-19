@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package langco.postwithimageviewer;
 
 import android.content.Context;
@@ -10,8 +26,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
-import com.facebook.FacebookSdk;
-import com.squareup.otto.Subscribe;
 
 import langco.postwithimageviewer.DetailView.DetailViewFragment;
 import langco.postwithimageviewer.FacebookClasses.FacebookFeedRead;
@@ -19,6 +33,11 @@ import langco.postwithimageviewer.FacebookClasses.FacebookPostLike;
 import langco.postwithimageviewer.Helpers.App;
 import langco.postwithimageviewer.Helpers.BusEventHandler;
 import langco.postwithimageviewer.RecyclerList.PostListFragment;
+
+import com.facebook.FacebookSdk;
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 //Facebook Hash: Yxcd3fAuo5i1cPSCAAuEImJtGIQ=
@@ -42,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         //Unregister the Otto bus library so that lingering traces don't stick in memory.
         App.bus.unregister(this);
+        /*ArrayList<String[]> empty_parsed_feed = new ArrayList<>();
+        ArrayList<String[]> empty_parsed_image_feed = new ArrayList<>();
+        App.setParsedFeed(empty_parsed_feed);
+        App.setParsedImageFeed(empty_parsed_image_feed);*/
     }
 
     //Using the Otto library to pass items across a bus. Implemented in App
@@ -76,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void launchPopup(final int index) {
+    private void launchPopup(final int index) {
         LayoutInflater layout_inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popup_layout =layout_inflater.inflate(R.layout.popup_window, null, false);
         final PopupWindow popup = new PopupWindow(popup_layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
