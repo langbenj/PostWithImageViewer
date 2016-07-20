@@ -16,7 +16,6 @@
 
 package langco.postwithimageviewer.Helpers;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +47,7 @@ public class DateFormater {
          * All of these have the month in front of the date. Otherwise sets the date in front of the month.
          */
         String current_locale=Locale.getDefault().toString();
-        SimpleDateFormat output_format=null;
+        SimpleDateFormat output_format;
         if (current_locale.equals("en_US") || current_locale.equals("zh_CN") || current_locale.equals("ko_KR")
                 || current_locale.equals("zh_TW") || current_locale.equals("hu_HU") || current_locale.equals("fa_IR")
                 || current_locale.equals("ja_JP") || current_locale.equals("lt-LT")) {

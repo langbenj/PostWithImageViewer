@@ -45,14 +45,19 @@ public class FacebookFeedRead {
         accessToken = new AccessToken(api_key,app_key,user_key,null,null,null,null,null);
         //Register this with Otto for bus communication
         App.bus.register(this);
-        //Read the text information for the feed
-        readFacebookFeed("");
-        //Read the image information for the feed
-        readFacebookImageFeed("");
+
+        //Prevents the feeds from being called again on a device rotate or other event
+        if (App.getParsedFeed().size()==0) {
+            //Read the text information for the feed
+            readFacebookFeed("","data");
+            //Read the image information for the feed
+            readFacebookFeed("","images");
+        }
     }
 
-    //Read the copy from the Facebook feed and parse it
-    private void readFacebookFeed(String after) {
+
+
+    private void readFacebookFeed(String after, final String type) {
         //Read in the post information using the GraphAPI
         final GraphRequest full_feed_request = GraphRequest.newGraphPathRequest(
                 accessToken,
@@ -60,72 +65,48 @@ public class FacebookFeedRead {
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse full_feed_response) {
-
                         String after = getAfter(full_feed_response.getRawResponse());
 
                         //Parses the returned JSON feed and loads it into shared storage in App
+                        if (type.equals("data")) {
                             parseFeedJson(full_feed_response.getRawResponse(), "data");
+                        }
+                        else {
+                            parseFeedJson(full_feed_response.getRawResponse(), "images");
+                        }
 
                         /*Checks for if a next node is in the current JSON data if so it loads the
                         next set by recursively calling the function.*/
-                            if (checkForNext(full_feed_response.getRawResponse())) {
-                                //Reads the next page in the cursor
-                                readFacebookFeed(after);
-                            }
-                            else {
+                        if (checkForNext(full_feed_response.getRawResponse())) {
+                            //Reads the next page in the cursor
+
+                                readFacebookFeed(after,type);
+
+                        }
+                        else {
                                 /*If all of the items are loaded and the data feed is also complete the
                                 * list is displayed. If the data feed is not complete then the image
                                 * feed is marked as complete. */
+                            if (type.equals("data")) {
                                 if (image_feed_status.equals("finished")) {
-                                     App.bus.post(new BusEventHandler(new String[]{"JSON Parse Complete",""}));
+                                    App.bus.post(new BusEventHandler(new String[]{"JSON Parse Complete", ""}));
                                 }
-
-                                feed_status="finished";
+                                feed_status = "finished";
                             }
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("limit", "25");
-        parameters.putString("after",after);
-        full_feed_request.setParameters(parameters);
-        full_feed_request.executeAsync();
-    }
-
-    //Read the images from the Facebook feed and parse them
-    private void readFacebookImageFeed(String after) {
-        //Read in the post information using the GraphAPI
-        final GraphRequest full_feed_request = GraphRequest.newGraphPathRequest(
-                accessToken,
-                "/me/photos/uploaded",
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse full_feed_response) {
-
-                        String after = getAfter(full_feed_response.getRawResponse());
-
-                        //Parses the returned JSON feed and loads it into shared storage in App
-                        parseFeedJson(full_feed_response.getRawResponse(), "images");
-
-                         /*Checks for if a next node is in the current JSON data if so it loads the
-                        next set by recursively calling the function.*/
-                        if (checkForNext(full_feed_response.getRawResponse())) {
-                            //Reads the next page in the cursor
-                            readFacebookImageFeed(after);
-                        }
-                        else {
-                            /*If all of the items are loaded and the data feed is also complete the
-                            * list is displayed. If the data feed is not complete then the image
-                            * feed is marked as complete. */
-                            if (feed_status.equals("finished")) {
-                                 App.bus.post(new BusEventHandler(new String[]{"JSON Parse Complete",""}));
+                            else {
+                                if (feed_status.equals("finished")) {
+                                    App.bus.post(new BusEventHandler(new String[]{"JSON Parse Complete",""}));
+                                }
+                                image_feed_status="finished";
                             }
-                            image_feed_status="finished";
                         }
                     }
                 });
         Bundle parameters = new Bundle();
         parameters.putString("limit", "25");
-        parameters.putString("fields", "images");
+        if (type.equals("images")) {
+            parameters.putString("fields", "images");
+        }
         parameters.putString("after",after);
         full_feed_request.setParameters(parameters);
         full_feed_request.executeAsync();
