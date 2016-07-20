@@ -37,11 +37,8 @@ import langco.postwithimageviewer.RecyclerList.PostListFragment;
 import com.facebook.FacebookSdk;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
-//Facebook Hash: Yxcd3fAuo5i1cPSCAAuEImJtGIQ=
-    //To get image http://graph.facebook.com/1083721161666716/picture where the middle is the ID
+
     public static final String API_KEY = "CAAAATT1YoUABAOT1GrQphXQx7RZBSpMjwUfwxTdkXFUsQZCILNqbKDIdPnDfXpvXAapK4P3GQpYj6hEooLEMbRLWZBWWN1rhmxEl0RLJochZBUQZA8mDiJsFpLEpVVXx1VdFDY3DuDqIDNlVG7YZA9lhvg6HmuqqmNPZARrHoQrr4ZCT8tkV6LJddcmTDzgnyD8X5djrihbQbgZDZD";
     public static final String APP_KEY = "331741700416";
     public static final String USER_KEY = "9339792";
@@ -49,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Register the Otto bus library to this class
+        /* The Otto library is being included to increase the reliability of communication between
+         * fragments and activities. I have found that it speeds development and it is very stable and quick.
+         */
+        //Register the Otto bus library to this Activity
         App.bus.register(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         //Read in the full feed. The output will be stored in the class App
@@ -61,10 +61,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         //Unregister the Otto bus library so that lingering traces don't stick in memory.
         App.bus.unregister(this);
-        /*ArrayList<String[]> empty_parsed_feed = new ArrayList<>();
-        ArrayList<String[]> empty_parsed_image_feed = new ArrayList<>();
-        App.setParsedFeed(empty_parsed_feed);
-        App.setParsedImageFeed(empty_parsed_image_feed);*/
     }
 
     //Using the Otto library to pass items across a bus. Implemented in App
@@ -75,13 +71,14 @@ public class MainActivity extends AppCompatActivity {
         String parameter = passed_data[1];
         switch (command) {
             case "JSON Parse Complete":
-                //Create the new fragment
+                //Once the Parse is complete load the recyclerlist
                 PostListFragment post_list_fragment = new PostListFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, post_list_fragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case "Launch Detail View":
+                //Launch the detail view fragment passing in the current item from the list
                 DetailViewFragment detail_fragment = new DetailViewFragment();
                 Bundle args = new Bundle();
                 args.putString("Index", parameter);
@@ -99,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Launch the popup for when the Like button is clicked in the recyclerview
     private void launchPopup(final int index) {
         LayoutInflater layout_inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popup_layout =layout_inflater.inflate(R.layout.popup_window, null, false);

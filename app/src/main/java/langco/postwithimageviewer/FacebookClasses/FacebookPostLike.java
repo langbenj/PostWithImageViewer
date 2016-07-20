@@ -34,6 +34,7 @@ public class FacebookPostLike {
 
     }
 
+    //Using the Facebook API mark the requested API with a generic like tied to the account.
     public void postLikeToFacebook (String api_key, String app_key,String user_key) {
         AccessToken accessToken = new AccessToken(api_key,app_key,user_key,null,null,null,null,null);
         new GraphRequest(

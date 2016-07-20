@@ -51,6 +51,7 @@ public class FacebookFeedRead {
         readFacebookImageFeed("");
     }
 
+    //Read the copy from the Facebook feed and parse it
     private void readFacebookFeed(String after) {
         //Read in the post information using the GraphAPI
         final GraphRequest full_feed_request = GraphRequest.newGraphPathRequest(
@@ -90,7 +91,7 @@ public class FacebookFeedRead {
         full_feed_request.executeAsync();
     }
 
-
+    //Read the images from the Facebook feed and parse them
     private void readFacebookImageFeed(String after) {
         //Read in the post information using the GraphAPI
         final GraphRequest full_feed_request = GraphRequest.newGraphPathRequest(
@@ -130,8 +131,7 @@ public class FacebookFeedRead {
         full_feed_request.executeAsync();
     }
 
-
-
+    //Get the "after" string from the current Facebook feed
     private String getAfter(String passed_data) {
         //Takes in the JSON data from the string and passes back the token for "after"
         JSONObject full_json_object = null;
@@ -141,11 +141,13 @@ public class FacebookFeedRead {
         if (passed_data==null) {
             return "";
         }
+        //Read the data into the JSON object
         try {
             full_json_object = new JSONObject(passed_data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        //Grab the object paging
         try {
             if (full_json_object != null) {
                 paging_object = full_json_object.getJSONObject("paging");
@@ -153,7 +155,7 @@ public class FacebookFeedRead {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        //Grab the object cursors from inside of paging
         try {
             if (paging_object != null) {
                 cursor_object = paging_object.getJSONObject("cursors");
@@ -161,7 +163,7 @@ public class FacebookFeedRead {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        //Grab the string for after. If the data is malformed set it to ""
         try {
             if (cursor_object != null) {
                 return_value = cursor_object.getString("after");
@@ -173,6 +175,7 @@ public class FacebookFeedRead {
         return return_value;
     }
 
+    //Check to see if the current cursor page has a next field or if it's at the end.
     private Boolean checkForNext(String passed_data) {
         /*Takes in the JSON data from the URL passes back a boolean with true or false based on
         *the node next being present*/
@@ -207,7 +210,7 @@ public class FacebookFeedRead {
         return return_value;
     }
 
-
+    //Parse the JSON from Facebook
     private void parseFeedJson (String passed_data, String type) {
         JSONObject full_json_object = null;
         JSONArray data_array=null;
@@ -220,6 +223,7 @@ public class FacebookFeedRead {
             e.printStackTrace();
         }
 
+        //Extract the data object
         try {
             if (full_json_object != null) {
                 data_array = full_json_object.getJSONArray("data");
@@ -244,6 +248,8 @@ public class FacebookFeedRead {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                //Pull the strings for the creation time, name and id from the JSON
                 try {
                     if (post_object != null) {
                         date = post_object.getString("created_time");
@@ -258,7 +264,6 @@ public class FacebookFeedRead {
                 } catch (JSONException e) {
                     copy = "";
                 }
-
                 try {
                     if (post_object != null) {
                         id = post_object.getString("id");
@@ -303,7 +308,7 @@ public class FacebookFeedRead {
                        thumbnail_url = "";
                    }
                    try {
-                       //Object 0 is the image size that is full size
+                       //Object 0 is the highest resolution image
                        if (image_array != null) {
                            full_image_object=image_array.getJSONObject(0);
                        }

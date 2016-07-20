@@ -16,10 +16,10 @@
 
 package langco.postwithimageviewer.Helpers;
 
+//Uses Otto to pass information between activities and fragments
 public class BusEventHandler {
     private String [] mParameter;
 
-    //These bus events can probably be refactored into one or two events TODO
     public BusEventHandler (String passedParameters[]) {
         mParameter=passedParameters;
     }

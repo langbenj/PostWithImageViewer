@@ -18,7 +18,6 @@ package langco.postwithimageviewer.Helpers;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.squareup.otto.Bus;
 
@@ -56,7 +55,6 @@ public class App extends Application {
         /* 0: Post date
         *  1: Post copy
         *  2: Post id */
-
         parsed_feed.add(passed_array);
     }
 

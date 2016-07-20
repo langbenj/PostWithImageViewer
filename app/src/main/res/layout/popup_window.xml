@@ -67,16 +67,25 @@
         android:layout_height="60dp">
 
         <Button
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/popup_cancel"
-            android:background="@drawable/cancel"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="50dp"
+            android:text="@string/cancel"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:textSize="16dp"
+            android:textColor="#0761fe"
+            android:textStyle="bold" />
 
         <Button
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="77dp"
+            android:layout_height="50dp"
             android:id="@+id/popup_select"
-            android:background="@drawable/select" />
+            android:background="#ffffff"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/select"
+            android:textSize="16dp"
+            android:textColor="#0761fe"
+            android:textStyle="bold" />
     </LinearLayout>
     </LinearLayout>

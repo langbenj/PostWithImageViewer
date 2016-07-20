@@ -25,17 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import langco.postwithimageviewer.Helpers.DateFormat;
 import langco.postwithimageviewer.Helpers.App;
 import langco.postwithimageviewer.R;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class DetailViewFragment extends Fragment {
 
@@ -43,44 +40,28 @@ public class DetailViewFragment extends Fragment {
         View view = fragmentInflater.inflate(R.layout.detail_view, target, false);
         TextView date_view = (TextView) view.findViewById(R.id.date);
         TextView post_view = (TextView) view.findViewById(R.id.post);
-
         ImageView image_detail_view = (ImageView) view.findViewById(R.id.photo);
 
+        //Grab the current item number from the Bundle
         Bundle bundle = this.getArguments();
         int detail_index = Integer.parseInt(bundle.getString("Index"));
+
+        //Load the correct info based on the index
         ArrayList<String []> data_feed = App.getParsedFeed();
         String [] current_post = data_feed.get(detail_index);
         ArrayList<String []> image_feed = App.getParsedImageFeed();
         String [] current_images = image_feed.get(detail_index);
 
+        //Format the date and load it into the field
         String date=current_post[0];
-
-        /*Switch the format of the date that's returned from Facebook in "yyyy-MM-dd'T'HH:mm:ssZ" to
-         *"May 18 at 3:43 PM"
-         *Parse the date using the Facebook format if there is no date or the parse fails
-         *parsed_date will be null*/
-        SimpleDateFormat facebook_date_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        Date parsed_date = null;
-        try {
-            parsed_date = facebook_date_format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        /* The date is converted to the new format. If the parsing failed for any reason then
-         * the date that will be assigned to the field will be "" */
-        SimpleDateFormat output_format = new SimpleDateFormat("MMMM d 'at' h:mm a", Locale.US);
-        String final_date;
-        if (parsed_date!=null) {
-            final_date = output_format.format(parsed_date);
-        } else {
-            final_date = "";
-        }
-
+        DateFormat date_formatter = new DateFormat();
+        String final_date = date_formatter.formatDate(date);
         date_view.setText(final_date);
+
+        //Set the text of the post
         post_view.setText(current_post[1]);
 
-
+        //Load the image using Picasso
         Picasso.with(App.getContext()).load(current_images[1]).into(image_detail_view, new Callback() {
                     @Override
                     public void onSuccess() {

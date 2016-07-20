@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import langco.postwithimageviewer.Helpers.DateFormat;
 import langco.postwithimageviewer.Helpers.App;
 import langco.postwithimageviewer.Helpers.BusEventHandler;
 import langco.postwithimageviewer.Helpers.ImagePreloader;
@@ -34,15 +35,12 @@ import langco.postwithimageviewer.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder>{
 
     ImagePreloader preloader = new ImagePreloader();
+    int MAX_POST_LENGTH=100;
 
     public PostListAdapter() {
         //Initialize the adapter
@@ -70,6 +68,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
             //Setup the onClickListener to handle click events on each view (individual row)
             itemView.setOnClickListener(this);
+
+            //Handle clicks on the like button by calling the main activity to launch the popup.
             mLikeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -82,6 +82,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
+            //Clicking on the view will open the detail view. Otto calls the Main Activity
             String current_position= (String) mCurrentPost.getText();
             App.bus.post(new BusEventHandler(new String[]{"Launch Detail View",current_position}));
         }
@@ -91,7 +92,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
     @Override
     public PostListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //The purpose of this function is to select a XML file for the fragment and inflate it
+        //Select a XML file for the fragment and inflate it
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView =inflater.inflate(R.layout.feed_list_item, parent, false);
@@ -101,44 +102,33 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(PostListAdapter.ViewHolder viewHolder, int position) {
+
         //Initial setup for the Recycler View
         Context context = App.getContext();
+
+        //Checks to see if the current line is divisible by 15 and if so kicks off the preloader
         preloader.checkForNextLoad(position);
+
+        //Load the row's information based on the position
         ArrayList<String []> data_feed = App.getParsedFeed();
         String [] current_post = data_feed.get(position);
         ArrayList<String []> image_feed = App.getParsedImageFeed();
         String [] current_images = image_feed.get(position);
+
         TextView date_view = viewHolder.mDate;
         TextView post_view = viewHolder.mPost;
         TextView current_id_view = viewHolder.mCurrentPost;
-        String date=current_post[0];
-        /*Switch the format of the date that's returned from Facebook in "yyyy-MM-dd'T'HH:mm:ssZ" to
-         *"May 18 at 3:43 PM"
-         *Parse the date using the Facebook format if there is no date or the parse fails
-         *parsed_date will be null*/
-        SimpleDateFormat facebook_date_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        Date parsed_date = null;
-        try {
-            parsed_date = facebook_date_format.parse(date);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        /* The date is converted to the new format. If the parsing failed for any reason then
-         * the date that will be assigned to the field will be "" */
-        SimpleDateFormat output_format = new SimpleDateFormat("MMMM d 'at' h:mm a", Locale.US);
-        String final_date;
-        if (parsed_date!=null) {
-            final_date = output_format.format(parsed_date);
-        } else {
-            final_date = "";
-        }
+        //Format the date and load it into the field
+        String date=current_post[0];
+        DateFormat date_formatter = new DateFormat();
+        String final_date = date_formatter.formatDate(date);
         date_view.setText(final_date);
 
         //If the post is more than 100 characters long it is trimmed and ... is added at the end
         String post_string = current_post[1];
-        if (post_string.length()>100) {
-            post_string=post_string.substring(0,100)+"...";
+        if (post_string.length()>MAX_POST_LENGTH) {
+            post_string=post_string.substring(0,MAX_POST_LENGTH)+"...";
         }
 
         //Load the image into the mImageNameField using Picasso. 15 images at a time should be preloaded.

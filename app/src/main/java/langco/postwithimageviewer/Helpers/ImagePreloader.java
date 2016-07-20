@@ -16,8 +16,6 @@
 
 package langco.postwithimageviewer.Helpers;
 
-import langco.postwithimageviewer.Helpers.App;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,16 +24,17 @@ import java.util.ArrayList;
 
 public class ImagePreloader {
     ArrayList<Integer> old_triggers = new ArrayList<>();
-
+    int LOAD_TRIGGER=15;
     public ImagePreloader() {
         //Add the first index to old triggers so images aren't loaded again if you scroll to the top
         old_triggers.add(0);
-        //Load the first 15 images
+        //Load the first LOAD_TRIGGER images
         preloadNextBatch(0);
     }
 
+    //Check to see if the current index is a multiple of LOAD_TRIGGER and if it has been loaded
     public void checkForNextLoad(int indexNumber) {
-        if (indexNumber%15==0) {
+        if (indexNumber%LOAD_TRIGGER==0) {
             boolean need_to_load = true;
             /*Old Triggers holds a list of the indexes that have triggered a load. This is to check
              *if the images have already been cached and not load them again.
@@ -45,25 +44,26 @@ public class ImagePreloader {
                     need_to_load=false;
                 }
             }
-            //If the indexNumber is a multiple of 15 and it hasn't been used load the next images
+            //If the indexNumber is a multiple of LOAD_TRIGGER and it hasn't been used load the next images
             if (need_to_load) {
                 preloadNextBatch(indexNumber);
             }
         }
     }
 
+    //Loads the next LOAD_TRIGGER images
     public void preloadNextBatch(int indexNumber) {
         //Pull the parsed image list from the App
         ArrayList<String[]> parsed_images = App.getParsedImageFeed();
         String [] current_image_node;
-        //Check to see if the indexNumber+15 > the array size. This prevents array reference errors
+        //Check to see if the indexNumber+LOAD_TRIGGER > the array size. This prevents array reference errors
         int upper_limit;
-        if ((indexNumber+15)>parsed_images.size()) {
+        if ((indexNumber+LOAD_TRIGGER)>parsed_images.size()) {
             upper_limit=parsed_images.size();
         }
         else {
             //Set the end point of the loop
-            upper_limit = indexNumber + 15;
+            upper_limit = indexNumber + LOAD_TRIGGER;
         }
         //Loop through the images indexNumber -> upper_limit and fetch them using Picasso
         for (int i=indexNumber; i<upper_limit; i++) {
