@@ -16,21 +16,25 @@
 
 package langco.postwithimageviewer.Helpers;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateFormat {
-    public DateFormat() {
+public class DateFormater {
+    public DateFormater() {
 
     }
 
     /*Switch the format of the date that's returned from Facebook in "yyyy-MM-dd'T'HH:mm:ssZ" to
      *"May 18 at 3:43 PM"
-     *Parse the date using the Facebook format if there is no date or the parse fails
-     *parsed_date will be null*/
+     */
+
     public String formatDate(String date) {
+        /*Parse the date using the Facebook format if there is no date or the parse fails
+         *parsed_date will be null
+         */
         SimpleDateFormat facebook_date_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         Date parsed_date = null;
         try {
@@ -39,9 +43,23 @@ public class DateFormat {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        /* Checks to see if the current locale is US,China,Koreas,Taiwan,Hungary,Iran,Japan,Lithuania
+         * All of these have the month in front of the date. Otherwise sets the date in front of the month.
+         */
+        String current_locale=Locale.getDefault().toString();
+        SimpleDateFormat output_format=null;
+        if (current_locale.equals("en_US") || current_locale.equals("zh_CN") || current_locale.equals("ko_KR")
+                || current_locale.equals("zh_TW") || current_locale.equals("hu_HU") || current_locale.equals("fa_IR")
+                || current_locale.equals("ja_JP") || current_locale.equals("lt-LT")) {
+            output_format = new SimpleDateFormat("MMMM d 'at' h:mm a");
+        }
+        else {
+            output_format = new SimpleDateFormat("d MMMM 'at' h:mm a");
+        }
         /* The date is converted to the new format. If the parsing failed for any reason then
-         * the date that will be assigned to the field will be "" */
-        SimpleDateFormat output_format = new SimpleDateFormat("MMMM d 'at' h:mm a", Locale.US);
+         * the date that will be assigned to the field will be ""
+         */
         String final_date;
         if (parsed_date!=null) {
             final_date = output_format.format(parsed_date);

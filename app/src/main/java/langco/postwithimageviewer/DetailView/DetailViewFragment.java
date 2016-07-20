@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import langco.postwithimageviewer.Helpers.DateFormat;
+import langco.postwithimageviewer.Helpers.DateFormater;
 import langco.postwithimageviewer.Helpers.App;
 import langco.postwithimageviewer.R;
 
@@ -54,7 +54,7 @@ public class DetailViewFragment extends Fragment {
 
         //Format the date and load it into the field
         String date=current_post[0];
-        DateFormat date_formatter = new DateFormat();
+        DateFormater date_formatter = new DateFormater();
         String final_date = date_formatter.formatDate(date);
         date_view.setText(final_date);
 
